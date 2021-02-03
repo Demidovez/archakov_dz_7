@@ -1,1 +1,13 @@
+.App {
+  padding: 50px;
+  max-width: 750px;
+  margin: 0 auto;
+}
 
+.wrapper-control-steps {
+  display: flex;
+
+  button + button {
+    margin-left: 15px;
+  }
+}

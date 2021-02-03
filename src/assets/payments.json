@@ -1,0 +1,10 @@
+[
+    {
+       "name": "Visa",
+       "image": "https://js.checkout.com/framesv2/img/visa.svg"
+    },
+    {
+        "name": "Mastercard",
+        "image": "https://js.checkout.com/framesv2/img/mastercard.svg"
+     }
+]

@@ -1,0 +1,22 @@
+[
+    {
+       "name": "DHL",
+       "image": "https://cdn.iconscout.com/icon/free/png-256/dhl-282165.png",
+       "forwarding": "сегодня"
+    },
+    {
+        "name": "DPD",
+        "image": "https://www.dpd.co.uk/content/about_dpd/press_centre/DPD_symbol_red_rgb.png",
+        "forwarding": "3 дня"
+     },
+     {
+        "name": "СДЭК",
+        "image": "https://static.tildacdn.com/tild3664-6633-4730-b231-623538313637/logo_1-p-1000.png",
+        "forwarding": "1-2 дня"
+     },
+     {
+        "name": "Boxberry",
+        "image": "https://zelenkarta.ru/wp-content/uploads/2020/04/boxberry.png",
+        "forwarding": "сегодня"
+     }
+]
