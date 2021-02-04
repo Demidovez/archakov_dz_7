@@ -58,7 +58,7 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.SET_ALL_STEPS:
       return {
         ...state,
-        allSteps: action.payload,
+        allSteps: action.payload.map((step) => ({ title: step, isValid: false })),
       };
     case actionTypes.SET_CURRENT_STEP:
       return {
@@ -69,6 +69,13 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         isSendOrder: action.payload,
+      };
+    case actionTypes.SET_IS_VALID_STEP:
+      return {
+        ...state,
+        allSteps: state.allSteps.map((step) =>
+          step.title === action.payload.title ? { ...step, isValid: action.payload.isValid } : step,
+        ),
       };
     default:
       return state;

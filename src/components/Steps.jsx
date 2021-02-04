@@ -15,13 +15,13 @@ function Steps({ children }) {
     () => {
       const steps = React.Children.map(
         children,
-        (child, index) => child.props.title || `Шаг ${index + 1}`
+        (child, index) => child.props.title || `Шаг ${index + 1}`,
       );
 
       dispatch(Actions.setAllSteps(steps));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   const onNextStep = () => {
@@ -36,7 +36,7 @@ function Steps({ children }) {
     try {
       const result = await axios.post(
         "https://5c3755177820ff0014d92711.mockapi.io/orders",
-        orderInfo
+        orderInfo,
       );
 
       dispatch(Actions.setIsSendOrder(result));
@@ -49,9 +49,7 @@ function Steps({ children }) {
   return (
     <div>
       <div className="wrapper-step">
-        {React.Children.toArray(children).find(
-          (_, index) => index === currentStepIndex
-        )}
+        {React.Children.toArray(children).find((_, index) => index === currentStepIndex)}
       </div>
       <div className="wrapper-control-steps">
         {currentStepIndex !== 0 && (
@@ -60,23 +58,17 @@ function Steps({ children }) {
           </Button>
         )}
         {currentStepIndex === steps.length - 1 ? (
-          <Button
-            fullWidth
-            disableElevation
-            variant="contained"
-            color="primary"
-            onClick={onOrder}
-          >
+          <Button fullWidth disableElevation variant="contained" color="primary" onClick={onOrder}>
             Оплатить
           </Button>
         ) : (
           <Button
             fullWidth
             disableElevation
+            disabled={steps.length ? !steps[currentStepIndex].isValid : true}
             variant="contained"
             color="secondary"
-            onClick={onNextStep}
-          >
+            onClick={onNextStep}>
             Далее
           </Button>
         )}

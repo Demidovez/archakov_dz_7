@@ -5,6 +5,7 @@ export const actionTypes = {
   SET_ALL_DELIVERY_METHODS: "SET_ALL_DELIVERY_METHODS",
   SET_ALL_PAYMENT_METHODS: "SET_ALL_PAYMENT_METHODS",
   SET_ALL_STEPS: "SET_ALL_STEPS",
+  SET_IS_VALID_STEP: "SET_IS_VALID_STEP",
   SET_CURRENT_STEP: "SET_CURRENT_STEP",
   SET_IS_SEND_ORDER: "SET_IS_SEND_ORDER",
 };
@@ -47,4 +48,9 @@ export const setCurrentStep = (index) => ({
 export const setIsSendOrder = (isSend) => ({
   type: actionTypes.SET_IS_SEND_ORDER,
   payload: isSend,
+});
+
+export const setValidStep = (title, isValid) => ({
+  type: actionTypes.SET_IS_VALID_STEP,
+  payload: { title, isValid },
 });

@@ -11,8 +11,8 @@ function StepStatusBar() {
   return (
     <Stepper activeStep={currentStepIndex} alternativeLabel>
       {steps.map((step) => (
-        <Step key={step}>
-          <StepLabel>{step}</StepLabel>
+        <Step key={step.title}>
+          <StepLabel>{step.title}</StepLabel>
         </Step>
       ))}
     </Stepper>
