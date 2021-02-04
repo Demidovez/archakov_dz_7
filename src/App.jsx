@@ -2,7 +2,12 @@ import React from "react";
 import * as Redux from "react-redux";
 import Steps from "./components/Steps";
 import StepStatusBar from "./components/StepStatusBar";
-import { ContactInfo, DeliveryMethods, PaymentMethods, SummaryInfo } from "./steps";
+import {
+  ContactInfo,
+  DeliveryMethods,
+  PaymentMethods,
+  SummaryInfo,
+} from "./steps";
 import { Actions } from "./redux";
 import deliveries from "./assets/deliveries.json";
 import payments from "./assets/payments.json";

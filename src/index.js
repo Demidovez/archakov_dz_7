@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux";
 import "./index.scss";
+import "fontsource-roboto";
 import App from "./App";
 
 ReactDOM.render(
@@ -11,5 +12,5 @@ ReactDOM.render(
       <App />
     </Provider>
   </React.StrictMode>,
-  document.getElementById("root"),
+  document.getElementById("root")
 );

@@ -1,17 +1,21 @@
 import { actionTypes } from "./actions";
 
 const initialState = {
-  firstName: "",
-  lastName: "",
-  city: "",
-  country: "",
-  phone: "",
-  deliveryMethod: "",
-  paymentMethod: "",
+  orderInfo: {
+    firstName: "",
+    lastName: "",
+    city: "",
+    country: "",
+    phone: "",
+    deliveryMethod: "",
+    paymentMethod: "",
+  },
+  deliveryForwarding: "",
   deliveryMethodsList: [],
   paymentMethodsList: [],
   allSteps: [],
   currentStepIndex: 0,
+  isSendOrder: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -19,17 +23,27 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.SET_CONTACT_INFO:
       return {
         ...state,
-        [action.payload.field]: action.payload.value,
+        orderInfo: {
+          ...state.orderInfo,
+          [action.payload.field]: action.payload.value,
+        },
       };
-    case actionTypes.SET_DELIVERY_METHODS:
+    case actionTypes.SET_DELIVERY_METHOD:
       return {
         ...state,
-        deliveryMethod: action.payload,
+        orderInfo: {
+          ...state.orderInfo,
+          deliveryMethod: action.payload.name,
+        },
+        deliveryForwarding: action.payload.forwarding,
       };
-    case actionTypes.SET_PAYMENT_METHODS:
+    case actionTypes.SET_PAYMENT_METHOD:
       return {
         ...state,
-        paymentMethod: action.payload,
+        orderInfo: {
+          ...state.orderInfo,
+          paymentMethod: action.payload,
+        },
       };
     case actionTypes.SET_ALL_DELIVERY_METHODS:
       return {
@@ -50,6 +64,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentStepIndex: action.payload,
+      };
+    case actionTypes.SET_IS_SEND_ORDER:
+      return {
+        ...state,
+        isSendOrder: action.payload,
       };
     default:
       return state;
