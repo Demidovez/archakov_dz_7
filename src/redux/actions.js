@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const actionTypes = {
   SET_CONTACT_INFO: "SET_CONTACT",
   SET_DELIVERY_METHOD: "SET_DELIVERY_METHOD",
@@ -8,6 +10,8 @@ export const actionTypes = {
   SET_IS_VALID_STEP: "SET_IS_VALID_STEP",
   SET_CURRENT_STEP: "SET_CURRENT_STEP",
   SET_IS_SEND_ORDER: "SET_IS_SEND_ORDER",
+  SET_IS_SENDING_ORDER: "SET_IS_SENDING_ORDER",
+  SET_RESET_STEPS: "SET_RESET_STEPS",
 };
 
 export const setContactInfo = (field, value) => ({
@@ -45,12 +49,37 @@ export const setCurrentStep = (index) => ({
   payload: index,
 });
 
-export const setIsSendOrder = (isSend) => ({
+export const setIsSendOrder = (isSended) => ({
   type: actionTypes.SET_IS_SEND_ORDER,
-  payload: isSend,
+  payload: isSended,
+});
+
+export const setIsSendingOrder = (isSending) => ({
+  type: actionTypes.SET_IS_SENDING_ORDER,
+  payload: isSending,
 });
 
 export const setValidStep = (title, isValid) => ({
   type: actionTypes.SET_IS_VALID_STEP,
   payload: { title, isValid },
 });
+
+export const setResetSteps = () => ({
+  type: actionTypes.SET_RESET_STEPS,
+  payload: {},
+});
+
+export const sendOrder = (orderInfo, currentStepIndex) => (dispatch) => {
+  dispatch(setIsSendingOrder(true));
+
+  axios
+    .post("https://5c3755177820ff0014d92711.mockapi.io/orders", orderInfo)
+    .then(({ status }) =>
+      dispatch(setIsSendOrder(status >= 200 && status < 300))
+    )
+    .catch(() => dispatch(setIsSendOrder(false)))
+    .finally(() => {
+      dispatch(setCurrentStep(currentStepIndex + 1));
+      dispatch(setIsSendingOrder(false));
+    });
+};

@@ -15,7 +15,8 @@ const initialState = {
   paymentMethodsList: [],
   allSteps: [],
   currentStepIndex: 0,
-  isSendOrder: false,
+  isSendedOrder: false,
+  isSendingOrder: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -58,7 +59,10 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.SET_ALL_STEPS:
       return {
         ...state,
-        allSteps: action.payload.map((step) => ({ title: step, isValid: false })),
+        allSteps: action.payload.map((step) => ({
+          title: step,
+          isValid: false,
+        })),
       };
     case actionTypes.SET_CURRENT_STEP:
       return {
@@ -68,14 +72,28 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.SET_IS_SEND_ORDER:
       return {
         ...state,
-        isSendOrder: action.payload,
+        isSendedOrder: action.payload,
+      };
+    case actionTypes.SET_IS_SENDING_ORDER:
+      return {
+        ...state,
+        isSendingOrder: action.payload,
       };
     case actionTypes.SET_IS_VALID_STEP:
       return {
         ...state,
         allSteps: state.allSteps.map((step) =>
-          step.title === action.payload.title ? { ...step, isValid: action.payload.isValid } : step,
+          step.title === action.payload.title
+            ? { ...step, isValid: action.payload.isValid }
+            : step
         ),
+      };
+    case actionTypes.SET_RESET_STEPS:
+      return {
+        ...initialState,
+        deliveryMethodsList: state.deliveryMethodsList,
+        paymentMethodsList: state.paymentMethodsList,
+        allSteps: state.allSteps.map((step) => ({ ...step, isValid: false })),
       };
     default:
       return state;

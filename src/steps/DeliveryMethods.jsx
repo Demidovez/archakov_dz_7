@@ -1,15 +1,19 @@
+import React from "react";
 import * as Redux from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import RadioCard from "../components/RadioCard";
 import { Actions } from "../redux";
 
-function DeliveryMethods() {
+function DeliveryMethods({ title }) {
+  const dispatch = Redux.useDispatch();
+
   const allMethods = Redux.useSelector((state) => state.deliveryMethodsList);
   const currentMethod = Redux.useSelector(
     ({ orderInfo }) => orderInfo.deliveryMethod
   );
-  const dispatch = Redux.useDispatch();
+
+  React.useEffect(() => dispatch(Actions.setValidStep(title, !!currentMethod)));
 
   const onSelectMethod = (name, forwarding) =>
     dispatch(Actions.setDeliveryMethod(name, forwarding));

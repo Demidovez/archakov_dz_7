@@ -1,27 +1,32 @@
 import React from "react";
 import * as Redux from "react-redux";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { Actions } from "../redux";
+import DoneOrder from "../steps/DoneOrder";
 
 function Steps({ children }) {
   const dispatch = Redux.useDispatch();
-  const steps = Redux.useSelector((state) => state.allSteps);
-  const currentStepIndex = Redux.useSelector((state) => state.currentStepIndex);
-  const orderInfo = Redux.useSelector((state) => state.orderInfo);
+  const {
+    allSteps,
+    currentStepIndex,
+    orderInfo,
+    isSendedOrder,
+    isSendingOrder,
+  } = Redux.useSelector((state) => state);
 
   // определяем список шагов для <StepStatusBar />
   React.useEffect(
     () => {
       const steps = React.Children.map(
         children,
-        (child, index) => child.props.title || `Шаг ${index + 1}`,
+        (child, index) => child.props.title || `Шаг ${index + 1}`
       );
 
       dispatch(Actions.setAllSteps(steps));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    []
   );
 
   const onNextStep = () => {
@@ -32,24 +37,16 @@ function Steps({ children }) {
     dispatch(Actions.setCurrentStep(currentStepIndex - 1));
   };
 
-  const onOrder = async () => {
-    try {
-      const result = await axios.post(
-        "https://5c3755177820ff0014d92711.mockapi.io/orders",
-        orderInfo,
-      );
-
-      dispatch(Actions.setIsSendOrder(result));
-    } catch {
-      dispatch(Actions.setIsSendOrder(false));
-    }
-  };
+  const onOrder = () =>
+    dispatch(Actions.sendOrder(orderInfo, currentStepIndex));
 
   // находим текущий шаг и отображаем его с кнопками внизу
-  return (
+  return currentStepIndex !== allSteps.length || !allSteps.length ? (
     <div>
       <div className="wrapper-step">
-        {React.Children.toArray(children).find((_, index) => index === currentStepIndex)}
+        {React.Children.toArray(children).find(
+          (_, index) => index === currentStepIndex
+        )}
       </div>
       <div className="wrapper-control-steps">
         {currentStepIndex !== 0 && (
@@ -57,23 +54,37 @@ function Steps({ children }) {
             Назад
           </Button>
         )}
-        {currentStepIndex === steps.length - 1 ? (
-          <Button fullWidth disableElevation variant="contained" color="primary" onClick={onOrder}>
+        {currentStepIndex === allSteps.length - 1 ? (
+          <Button
+            fullWidth
+            disableElevation
+            variant="contained"
+            color="primary"
+            onClick={onOrder}
+          >
+            {isSendingOrder && (
+              <CircularProgress size={20} color="inherit" className="loader" />
+            )}{" "}
             Оплатить
           </Button>
         ) : (
           <Button
             fullWidth
             disableElevation
-            disabled={steps.length ? !steps[currentStepIndex].isValid : true}
+            disabled={
+              allSteps.length ? !allSteps[currentStepIndex].isValid : true
+            }
             variant="contained"
             color="secondary"
-            onClick={onNextStep}>
+            onClick={onNextStep}
+          >
             Далее
           </Button>
         )}
       </div>
     </div>
+  ) : (
+    <DoneOrder isSuccess={isSendedOrder} />
   );
 }
 

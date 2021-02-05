@@ -30,7 +30,10 @@ const validationSchema = Yup.object({
     .matches(/^[А-Яа-я-]+$/, "Некорректное название!")
     .required("Обязательное поле"),
   phone: Yup.string()
-    .matches(/^((\+7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/, "Некорректный номер!")
+    .matches(
+      /^((\+7|7|8)+([0-9]){10})$|\b\d{3}[-.]?\d{3}[-.]?\d{4}/,
+      "Некорректный номер!"
+    )
     .required("Обязательное поле"),
 });
 
@@ -38,7 +41,7 @@ const ContactInfo = ({ title }) => {
   const dispatch = Redux.useDispatch();
 
   const { firstName, lastName, country, city, phone } = Redux.useSelector(
-    (state) => state.orderInfo,
+    (state) => state.orderInfo
   );
 
   const formik = Formik.useFormik({
@@ -52,13 +55,15 @@ const ContactInfo = ({ title }) => {
     validationSchema: validationSchema,
   });
 
+  React.useEffect(
+    () => formik.dirty && dispatch(Actions.setValidStep(title, formik.isValid))
+  );
+
   const handleChange = ({ target }) => {
     formik.setFieldValue(target.id, target.value);
 
     dispatch(Actions.setContactInfo(target.id, target.value));
   };
-
-  React.useEffect(() => dispatch(Actions.setValidStep(title, formik.isValid)));
 
   return (
     <div>

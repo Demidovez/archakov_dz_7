@@ -1,15 +1,19 @@
+import React from "react";
 import * as Redux from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import RadioCard from "../components/RadioCard";
 import { Actions } from "../redux";
 
-function PaymentMethods() {
+function PaymentMethods({ title }) {
+  const dispatch = Redux.useDispatch();
+
   const allMethods = Redux.useSelector((state) => state.paymentMethodsList);
   const currentMethod = Redux.useSelector(
     ({ orderInfo }) => orderInfo.paymentMethod
   );
-  const dispatch = Redux.useDispatch();
+
+  React.useEffect(() => dispatch(Actions.setValidStep(title, !!currentMethod)));
 
   const onSelectMethod = (name) => dispatch(Actions.setPaymentMethod(name));
 
