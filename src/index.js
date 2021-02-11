@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
+
 import { store } from "./redux";
+import { Provider } from "react-redux";
 import "./index.scss";
 import "fontsource-roboto";
 import App from "./App";
